@@ -1,26 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export interface MenuItemProps {
-    id?: string,
-    key?: string,
-    text?: string,
-    //iconProps: { iconName: 'Mail' },
-};
+import { IContextualMenuItem } from '@fluentui/react';
+import { IconProps } from '../icons/IconProps.props';
 
-export const MenuItem: PropTypes.InferProps<MenuItemProps> = {
+export const MenuItem: PropTypes.InferProps<IContextualMenuItem> = {
 
     /**
-     * ID
+     * Unique id to identify the item
      */
-    id: PropTypes.string,
-    /**
-    * Label text
-    */
     key: PropTypes.string,
     /**
     * Label text
     */
     text: PropTypes.string,
 
+    /**
+     * The props for the icon shown in the button.
+     */
+    iconProps: PropTypes.shape(IconProps),
 };

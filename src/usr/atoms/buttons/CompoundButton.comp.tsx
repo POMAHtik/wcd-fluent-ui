@@ -7,7 +7,6 @@ export interface CompoundButtonProps {
     ariaLabel?: string;
     ariaDescription?: string;
     ariaHidden?: boolean;
-    toggle?: boolean;
     href?: string;
     disabled?: boolean;
     primary?: boolean;
@@ -38,11 +37,6 @@ class CompoundButton extends React.Component<CompoundButtonProps, any> {
          * If provided and is true it adds an 'aria-hidden' attribute instructing screen readers to ignore the element.
          */
         ariaHidden: PropTypes.bool,
-        /**
-         * Whether button is a toggle button with distinct on and off states. This should be true for buttons that permanently
-         * change state when a press event finishes, such as a volume mute button.
-         */
-        toggle: PropTypes.bool,
         /**
          * If provided, this component will be rendered as an anchor.
          * @defaultvalue ElementType.anchor
@@ -99,7 +93,6 @@ class CompoundButton extends React.Component<CompoundButtonProps, any> {
             ariaLabel,
             ariaDescription,
             ariaHidden,
-            toggle,
             href,
             disabled,
             primary,
@@ -107,7 +100,7 @@ class CompoundButton extends React.Component<CompoundButtonProps, any> {
             secondaryText,
             text
         } = this.props;
-        const properties = pickWithValues({ ariaLabel, ariaDescription, ariaHidden, toggle, href, disabled, primary, allowDisabledFocus, secondaryText, text });
+        const properties = pickWithValues({ ariaLabel, ariaDescription, ariaHidden, href, disabled, primary, allowDisabledFocus, secondaryText, text });
         return (
             <CompoundButtonOF
                 {...properties}

@@ -1,22 +1,23 @@
 import React from 'react';
 import PropTypes, { string } from 'prop-types';
-import { CommandBarButton as CommandBarButtonOF, IContextualMenuProps } from '@fluentui/react';
+import { CommandButton as CommandBarButtonOF, IContextualMenuProps, IContextualMenuItem, IIconProps } from '@fluentui/react';
 import pickWithValues from "usr/a_lib/utils/pickWithValues";
-import { MenuItem, MenuItemProps } from "usr/atoms/buttons/MenuItem.props"
+import { MenuItem } from "usr/atoms/buttons/MenuItem.props"
+import { IconProps } from '../icons/IconProps.props';
 
 export interface CommandBarButtonProps {
     ariaLabel?: string;
     ariaDescription?: string;
     ariaHidden?: boolean;
-    toggle?: boolean;
     href?: string;
     disabled?: boolean;
     allowDisabledFocus?: boolean;
     text: string;
     onClick?: () => void;
+    iconProps?: IIconProps;
+    split?: boolean;
 
-    //for menu
-    menuProps: MenuItemProps[];
+    menuItems: IContextualMenuItem[];
 }
 
 
@@ -33,7 +34,7 @@ class CommandBarButton extends React.Component<CommandBarButtonProps, any> {
          * how the default icon looks. Providing this in addition of onClick and setting the split property to true will
          * render a SplitButton.
          */
-        menuProps: PropTypes.arrayOf(PropTypes.shape(MenuItem)),
+        menuItems: PropTypes.arrayOf(PropTypes.shape(MenuItem)),
         /**
         * The aria label of the button for the benefit of screen readers.
         */
@@ -48,11 +49,6 @@ class CommandBarButton extends React.Component<CommandBarButtonProps, any> {
          * If provided and is true it adds an 'aria-hidden' attribute instructing screen readers to ignore the element.
          */
         ariaHidden: PropTypes.bool,
-        /**
-         * Whether button is a toggle button with distinct on and off states. This should be true for buttons that permanently
-         * change state when a press event finishes, such as a volume mute button.
-         */
-        toggle: PropTypes.bool,
         /**
          * If provided, this component will be rendered as an anchor.
          * @defaultvalue ElementType.anchor
@@ -74,11 +70,21 @@ class CommandBarButton extends React.Component<CommandBarButtonProps, any> {
          * Triggered when the user clicks on the button
          */
         onClick: PropTypes.func,
+        /**
+         * If set to true, and if menuProps and onClick are provided, the button will render as a SplitButton.
+         * @defaultvalue false
+         */
+        split: PropTypes.bool,
+
+        /**
+         * The props for the icon shown in the button.
+         */
+        iconProps: PropTypes.shape(IconProps),
     };
 
     static defaultProps: CommandBarButtonProps = {
         text: 'Button',
-        menuProps: [],
+        menuItems: [],
     };
 
     // constructor(props: PrimaryButtonProps) {
@@ -101,32 +107,27 @@ class CommandBarButton extends React.Component<CommandBarButtonProps, any> {
             ariaLabel,
             ariaDescription,
             ariaHidden,
-            toggle,
             href,
             disabled,
             allowDisabledFocus,
             text,
-            menuProps,
+            menuItems,
+            iconProps,
+            split
         } = this.props;
-        //const menuProps: IContextualMenuProps = {
-        //    items: [
-        //        {
-        //            key: 'emailMessage',
-        //            text: 'Email message',
-        //            iconProps: { iconName: 'Mail' },
-        //        },
-        //        {
-        //            key: 'calendarEvent',
-        //            text: 'Calendar event',
-        //            iconProps: { iconName: 'Calendar' },
-        //        },
-        //    ],
-        //};
-        const properties = pickWithValues({ ariaLabel, ariaDescription, ariaHidden, toggle, href, disabled, allowDisabledFocus, text, menuProps });
-        
-        return (    
+
+        const menuProps: IContextualMenuProps = {
+            items: menuItems
+        }
+
+        const properties =
+            pickWithValues({
+                ariaLabel, ariaDescription, ariaHidden, href, disabled, allowDisabledFocus, text, iconProps, split, });
+
+        return (
             <CommandBarButtonOF
                 {...properties}
+                menuProps={menuItems && menuItems.length ? menuProps : undefined}
                 onClick={this.handleButtonClick}
             />);
     }

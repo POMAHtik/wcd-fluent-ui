@@ -5,8 +5,8 @@
     "\\src\\usr",
     "\\src\\usr\\atoms",
     "\\src\\usr\\atoms\\buttons",
-    "\\src\\usr\\atoms\\form"
+    "\\src\\usr\\atoms\\icons"
   ],
-  "SelectedNode": "\\src\\usr\\atoms\\buttons\\CommandBarButton.comp.tsx",
+  "SelectedNode": "\\src\\usr\\atoms\\buttons\\ToggleButton.comp.tsx",
   "PreviewInSolutionExplorer": false
 }
